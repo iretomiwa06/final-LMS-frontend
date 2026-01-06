@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { books, borrowRecords } from '../MockData/mockData';
 import './MyBooks.css';
+import OverdueNotifications from './OverdueNotifications';
 
 const MyBooks = () => {
     const studentId = 1; // Mock current user
@@ -14,9 +14,29 @@ const MyBooks = () => {
         return () => clearTimeout(timer);
     }, []);
 
-    const myRecords = borrowRecords.filter(r => r.studentId === studentId && !r.returned);
+    // Placeholder borrowed records for demo purposes
+    const mockBorrowRecords = [
+        {
+            id: 1,
+            studentId: 1,
+            bookId: 1,
+            title: 'Introduction to Computer Science',
+            author: 'John Doe',
+            dueDate: '2024-12-01',
+            returned: false,
+        },
+        {
+            id: 2,
+            studentId: 1,
+            bookId: 2,
+            title: 'Clean Code',
+            author: 'Robert C. Martin',
+            dueDate: '2023-10-15',
+            returned: false,
+        },
+    ];
 
-    const getBookDetails = (id) => books.find(b => b.id === id);
+    const myRecords = mockBorrowRecords.filter(r => r.studentId === studentId && !r.returned);
 
     if (loading) {
         return <div className="my-books-loading">Loading your books...</div>;
@@ -25,6 +45,9 @@ const MyBooks = () => {
     return (
         <div className="my-books-container">
             <h2 className="my-books-title">My Borrowed Books</h2>
+
+            {/* Placeholder overdue notifications workflow */}
+            <OverdueNotifications studentId={studentId} />
 
             {myRecords.length === 0 ? (
                 <p>You have no borrowed books.</p>
@@ -45,8 +68,8 @@ const MyBooks = () => {
                                 const isOverdue = new Date(record.dueDate) < new Date();
                                 return (
                                     <tr key={record.id} className={isOverdue ? 'row-overdue' : ''}>
-                                        <td>{book?.title || 'Unknown Title'}</td>
-                                        <td>{book?.author || 'Unknown Author'}</td>
+                                        <td>{record?.title || 'Unknown Title'}</td>
+                                        <td>{record?.author || 'Unknown Author'}</td>
                                         <td className={isOverdue ? 'text-overdue' : ''}>
                                             {record.dueDate} {isOverdue && '(Overdue)'}
                                         </td>
