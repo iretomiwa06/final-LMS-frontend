@@ -40,10 +40,10 @@ const LoginPage = () => {
 
   return (
     <>
-  <div className="min-h-screen flex items-center justify-center relative overflow-hidden">
+  <div className="flex items-center justify-center  overflow-hidden">
     
     {/* Blue curved background */}
-    <div className="absolute bottom-0 left-0 right-0 h-[75%] bg-sky-300 rounded-t-[50%]"></div>
+    <div className="absolute bottom-0 left-0 right-0 h-[80%] bg-sky-300 rounded-t-[50%]"></div>
 
     {/* Form */}
     <form className="relative z-10 w-full max-w-md flex flex-col items-center px-6">
@@ -59,7 +59,7 @@ const LoginPage = () => {
       <img
         src="src/images/lcu logo.png"
         alt="LCU Logo"
-        className="mb-6 w-20 h-20 object-contain"
+        className="mb-15 w-40 h-40 object-contain"
       />
 
       {/* Title */}
@@ -101,7 +101,7 @@ const LoginPage = () => {
       {/* Footer text */}
       <p className="text-sm text-gray-700">
         Don’t have an account?{" "}
-        <span className="text-pink-500 font-semibold cursor-pointer">
+        <span className="text-white font-semibold cursor-pointer">
           Sign up
         </span>
       </p>
