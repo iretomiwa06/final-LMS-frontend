@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import SignupModal from "../components/SignupModal";
 import './Auth.css';
 
 function Login() {
@@ -8,6 +9,7 @@ function Login() {
   const [newEmail, setNewEmail] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [showError, setShowError] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleEmailChange = (event) => {
     setNewEmail(event.target.value);
@@ -67,11 +69,13 @@ function Login() {
 
         <p className="auth-text">
           Don't have an account?{" "} 
-          <Link to="/signup">
-            <span>Sign up</span>
-          </Link>
+          <span onClick={() => setIsModalOpen(true)} style={{ cursor: "pointer" }}>
+            Sign up
+          </span>
         </p>
       </div>
+
+      <SignupModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>
   );
 }
