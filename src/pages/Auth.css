@@ -1,10 +1,10 @@
-html, body {
+/* html, body {
   margin: 0;
   padding: 0;
-  height: 100%; /* ensures children using % or vh work correctly */
-}
+  height: 100%; 
+} */
 
-* {
+/* * {
   box-sizing: border-box;
   font-family: "Segoe UI", sans-serif;
   transition: all 0.3s ease;
@@ -55,14 +55,14 @@ html, body {
   margin: 0 auto;
   padding-top: 80px;
   text-align: center;
-}
-@media (max-width: 480px) {
+} */
+/* @media (max-width: 480px) {
   html, body {
     margin: 0;
     padding: 0;
     
   }
-  /* .auth-container{
+  .auth-container{
     position: relative;
     width: 100%;       
     height: 30vh;
@@ -70,7 +70,9 @@ html, body {
    
     overflow: hidden;  
     background: #f3f3f3;
-  } */
+  }
+
+
   .edge-design1{
     display: none;
   }
@@ -96,9 +98,9 @@ html, body {
   transform: translateX(-50%);
   top: -100px;
   }
-}
+} */
 
-
+/* 
 @media only screen 
 and (min-device-width: 768px) 
 and (max-device-width: 1024px) 
@@ -132,12 +134,12 @@ and (orientation: portrait) {
   .edge-design2{
     display: none;
   }
-}
+} */
 
 
 
 
-@media (min-width: 1025px) {
+/* @media (min-width: 1025px) {
   .auth-card {
     max-width: 420px;
     margin-top: 300px;
@@ -160,9 +162,9 @@ and (orientation: portrait) {
     left: 50%;   
     transform: translateX(-50%);
   }
-}
+} */
 
-@media only screen 
+/* @media only screen 
 and (min-device-width: 768px) 
 and (max-device-width: 1024px) 
 and (-webkit-min-device-pixel-ratio: 2)
@@ -186,7 +188,7 @@ and (orientation: landscape) {
   max-width: 420px;
   margin-top: 200px;
 }
-}
+} */
 
 /* .auth-container {
   position: relative;
@@ -196,7 +198,7 @@ and (orientation: landscape) {
   overflow: hidden;
 } */
 
-
+/* 
 .logo {
   width: 100px;
   margin: 20px auto;
@@ -252,5 +254,5 @@ button:hover {
   color: #f3f3f3;
   cursor: pointer;
   font-weight: bold;
-}
+} */
 

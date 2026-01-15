@@ -35,48 +35,62 @@ function Login() {
   };
 
   return (
-    <div className="auth-container">
-      <div className="container">
-        <div className="edge-design1"></div>
-        <div className="edge-design2"></div>
-      </div>
-      <div className="auth-curve"></div>
-      <div className="auth-card">
-        <img src="/logo.png" alt="School Logo" className="logo" />
+    <div className="flex items-center justify-center min-h-screen overflow-hidden relative">
+  <div className="absolute inset-0">
+    <div className="absolute bottom-0 left-0 right-0 h-[75%] bg-sky-300 rounded-t-[50%]"></div>
+  </div>
 
-        {showError && (
-          <p style={{ color: "red", fontSize: "14px", marginBottom: "10px" }}>
-            Invalid email or password.
-          </p>
-        )}
+  <div className="relative z-10 w-full max-w-md flex flex-col items-center px-6">
+    <img
+      src="/logo.png"
+      alt="School Logo"
+      className="mb-6 w-40 h-40 object-contain"
+    />
 
-        <input
-          type="text"
-          placeholder="Username"
-          value={newEmail}
-          onChange={handleEmailChange}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={newPassword}
-          onChange={handlePasswordChange}
-        />
+    {showError && (
+      <p className="text-red-500 text-sm mb-4">
+        Invalid email or password.
+      </p>
+    )}
 
-        <button className='login-button' type="button" onClick={handleLoginCredentials}>
-          Login
-        </button>
+    <input
+      type="text"
+      placeholder="Username"
+      value={newEmail}
+      onChange={handleEmailChange}
+      className="w-full mb-5 px-5 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-sky-400 bg-white"
+    />
 
-        <p className="auth-text">
-          Don't have an account?{" "} 
-          <span onClick={() => setIsModalOpen(true)} style={{ cursor: "pointer" }}>
-            Sign up
-          </span>
-        </p>
-      </div>
+    <input
+      type="password"
+      placeholder="Password"
+      value={newPassword}
+      onChange={handlePasswordChange}
+      className="w-full mb-8 px-5 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-sky-400 bg-white"
+    />
 
-      <SignupModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
-    </div>
+    <button
+      className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 rounded-full transition duration-300 mb-4"
+      type="button"
+      onClick={handleLoginCredentials}
+    >
+      Login
+    </button>
+
+    <p className="text-sm text-gray-700">
+      Don't have an account?{" "}
+      <span
+        onClick={() => setIsModalOpen(true)}
+        className="text-white font-semibold cursor-pointer"
+      >
+        Sign up
+      </span>
+    </p>
+  </div>
+
+  <SignupModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+</div>
+
   );
 }
 
