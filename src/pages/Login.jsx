@@ -18,7 +18,7 @@ function Login() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  
+
 
   const handleChange = (e) => {
     setFormData({
@@ -68,7 +68,7 @@ function Login() {
         <form onSubmit={handleSubmit}>
         <input
           type="email"
-          name="email"
+          name="email email"
           placeholder="Email"
           value={formData.email}
           onChange={handleChange}
