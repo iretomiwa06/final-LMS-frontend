@@ -69,7 +69,7 @@ function Login() {
         <input
           type="email"
           name="email"
-          placeholder="Email sweetness"
+          placeholder="Email bolu"
           value={formData.email}
           onChange={handleChange}
           required
