@@ -85,7 +85,7 @@ function Login() {
             onChange={handleChange}
             className="w-full px-5 py-3 pr-12 rounded-lg border 
                focus:outline-none focus:ring-2 focus:ring-sky-400
-                text-white placeholder-gray-400  bg-white"
+                text-gray-900 placeholder-gray-400  bg-white"
           />
 
           <button

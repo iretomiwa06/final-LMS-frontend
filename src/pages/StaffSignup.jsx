@@ -1,10 +1,15 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { staffSignup } from "../services/api";
+
 
 const StaffSignup = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    fullName: "",
+    firstName: "",
+  lastName: "",
+  phoneNumber: "",
+  designation: "",
     idNumber: "",
     email: "",
     password: "",
@@ -13,16 +18,23 @@ const StaffSignup = () => {
   const [error, setError] = useState("");
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
   };
+  
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-
-    // Validation
+  
+    // 1️⃣ Validation
     if (
-      !formData.fullName ||
+      !formData.firstName ||
+      !formData.lastName ||
+      !formData.phoneNumber ||
+      !formData.designation ||
       !formData.idNumber ||
       !formData.email ||
       !formData.password ||
@@ -31,37 +43,44 @@ const StaffSignup = () => {
       setError("All fields are required.");
       return;
     }
-
+  
     if (formData.password !== formData.confirmPassword) {
       setError("Passwords do not match.");
       return;
     }
-
+  
     if (formData.password.length < 6) {
       setError("Password must be at least 6 characters long.");
       return;
     }
-
-    // Save to localStorage
-    const users = JSON.parse(localStorage.getItem("users") || "[]");
-
-    // Check if email already exists
-    if (users.some((user) => user.email === formData.email)) {
-      setError("Email already exists.");
-      return;
-    }
-
-    users.push({
-      fullName: formData.fullName,
+  
+    // 2️⃣ Payload sent to backend
+    const payload = {
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      phoneNumber: formData.phoneNumber,
+      designation: formData.designation,
       idNumber: formData.idNumber,
       email: formData.email,
       password: formData.password,
       role: "staff",
-    });
-
-    localStorage.setItem("users", JSON.stringify(users));
-    alert("Staff account created successfully!");
-    navigate("/login");
+    };
+  
+    // 3️⃣ API call
+    try {
+      const response = await staffSignup(payload);
+  
+      if (response.data.token) {
+        localStorage.setItem("token", response.data.token);
+      }
+  
+      navigate("/login");
+    } catch (err) {
+      setError(
+        err.response?.data?.message ||
+        "Staff signup failed. Please try again."
+      );
+    }
   };
 
   return (
@@ -87,17 +106,32 @@ const StaffSignup = () => {
       </div>
     )}
 
-    <div className="w-full mb-4">
-      <label className="block text-sm text-gray-700 mb-1">Full Name:</label>
-      <input
-        type="text"
-        name="fullName"
-        placeholder="Jane Smith"
-        value={formData.fullName}
-        onChange={handleChange}
-        className="w-full px-5 py-3 rounded-lg border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-sky-400"
-      />
-    </div>
+<div className="w-full mb-4 flex gap-4">
+          <div className="flex-1">
+            <label className="block text-sm text-gray-700 mb-1">First Name:</label>
+            <input
+              type="text"
+              name="firstName"
+              placeholder="John"
+              required
+              value={formData.firstName}
+              onChange={handleChange}
+              className="w-full px-5 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-sky-400 bg-white"
+            />
+          </div>
+          <div className="flex-1">
+            <label className="block text-sm text-gray-700 mb-1">Last Name:</label>
+            <input
+              type="text"
+              name="lastName"
+              placeholder="Doe"
+              required
+              value={formData.lastName}
+              onChange={handleChange}
+              className="w-full px-5 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-sky-400 bg-white"
+            />
+          </div>
+        </div>
 
     <div className="w-full mb-4">
       <label className="block text-sm text-gray-700 mb-1">ID Number:</label>
@@ -105,6 +139,7 @@ const StaffSignup = () => {
         type="text"
         name="idNumber"
         placeholder="STF12345"
+        required
         value={formData.idNumber}
         onChange={handleChange}
         className="w-full px-5 py-3 rounded-lg border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-sky-400"
@@ -116,18 +151,56 @@ const StaffSignup = () => {
       <input
         type="email"
         name="email"
+        required
         placeholder="staff@example.com"
         value={formData.email}
         onChange={handleChange}
         className="w-full px-5 py-3 rounded-lg border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-sky-400"
       />
     </div>
+    <div className="w-full mb-4">
+          <label className="block text-sm text-gray-700 mb-1">Phone Number:</label>
+          <input
+            type="tel"
+            name="phoneNumber"
+            placeholder="08012345678"
+            required
+            value={formData.phoneNumber}
+            onChange={handleChange}
+            className="w-full px-5 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-sky-400 bg-white"
+          />
+        </div>
+
+        <div className="w-full mb-4">
+  <label className="block text-sm text-gray-700 mb-1">
+    Designation:
+  </label>
+
+  <select
+    name="designation"
+    value={formData.designation}
+    onChange={handleChange}
+    required
+    className="w-full px-5 py-3 rounded-lg border border-gray-200 
+               focus:outline-none focus:ring-2 focus:ring-sky-400 
+               bg-white"
+    
+  >
+    <option value="">Select designation</option>
+    <option value="lecturer">Lecturer</option>
+<option value="assistant">Assistant</option>
+<option value="librarian">Librarian</option>
+
+  </select>
+</div>
+
 
     <div className="w-full mb-4">
       <label className="block text-sm text-gray-700 mb-1">Password:</label>
       <input
         type="password"
         name="password"
+        required
         placeholder="Min 6 characters"
         value={formData.password}
         onChange={handleChange}
@@ -140,6 +213,7 @@ const StaffSignup = () => {
       <input
         type="password"
         name="confirmPassword"
+        required
         placeholder="Re-enter password"
         value={formData.confirmPassword}
         onChange={handleChange}

@@ -1,40 +1,68 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import logoImage from "../../Images/School Logo.png";
 import backgroundImage from "../../Images/Background.png";
+import { getAllBooks, searchBooks } from "../../services/api";
 
-// Mock data for demonstration
-const mockBooks = [
-  { id: 1, title: "100 ways to die", author: "Author A", available: 4 },
-  { id: 2, title: "5 ways to bury a body", author: "Author B", available: 4 },
-  { id: 3, title: "A lorem ipsum dolor sit amet.", author: "Author C", available: 4 },
-  { id: 4, title: "B lorem ipsum dolor sit amet.", author: "Author D", available: 4 },
-  { id: 5, title: "C lorem ipsum dolor sit amet.", author: "Author E", available: 4 },
-];
+
+
 
 export default function BookSearchPage() {
+  const [books, setBooks] = useState([]);
   const [query, setQuery] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");  
   const alphabet = "#ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 
-  // Filter books based on search query
-  const filteredBooks = useMemo(() => {
-    return mockBooks.filter(
-      (book) =>
-        book.title.toLowerCase().includes(query.toLowerCase()) ||
-        book.author.toLowerCase().includes(query.toLowerCase())
-    );
-  }, [query]);
+  const fetchAllBooks = async () => {
+    try {
+      setLoading(true);
+      setError(""); // clear previous error
+      const response = await getAllBooks();
+      setBooks(response.data);
+    } catch (err) {
+      setError("Failed to load books");
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+  useEffect(() => {
+    fetchAllBooks();
+  }, []);
+  
+  
 
-  // Group books by their first letter
+  const handleSearch = async (value) => {
+    setQuery(value);
+  
+    if (value.trim() === "") {
+      fetchAllBooks();
+      return;
+    }
+  
+    try {
+      setError("");
+      setLoading(true);
+      const response = await searchBooks(value);
+      setBooks(response.data);
+    } catch (err) {
+      setError("Search failed");
+    } finally {
+      setLoading(false);
+    }
+  };
+  
   const groupedBooks = useMemo(() => {
     const groups = {};
-    filteredBooks.forEach((book) => {
-      const firstChar = book.title.charAt(0).toUpperCase();
+    books.forEach((book) => {
+      const firstChar = book.title?.charAt(0)?.toUpperCase() || "#";
       const key = /[0-9]/.test(firstChar) ? "#" : firstChar;
       if (!groups[key]) groups[key] = [];
       groups[key].push(book);
     });
     return groups;
-  }, [filteredBooks]);
+  }, [books]);
+  
 
   return (
     <div className="min-h-screen bg-[#00E5FF] font-sans">
@@ -69,7 +97,7 @@ export default function BookSearchPage() {
                 type="text"
                 placeholder="Search"
                 value={query}
-                onChange={(e) => setQuery(e.target.value)}
+                onChange={(e) => handleSearch(e.target.value)}
                 className="w-full bg-white/70 backdrop-blur-md py-2.5 px-10 rounded-full text-sm placeholder-gray-500 focus:outline-none shadow-inner text-black"
               />
               <svg className="absolute left-3 top-3 w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M21 21l-6-6m2-5a7 7-0 11-14 0 7 7-0 0114 0z" /></svg>
@@ -90,6 +118,11 @@ export default function BookSearchPage() {
           </div>
         ))}
       </div>
+
+      {loading && <div className="text-center mt-10">Loading books...</div>}
+{error && <div className="text-center mt-10 text-red-600">{error}</div>}
+
+
 
       {/* --- Grouped Results --- */}
       <div className="px-4 pb-12">
