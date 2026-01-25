@@ -131,43 +131,24 @@ export default function BookSearchPage() {
             </div>
 
             {/* Search Bar Pill */}
-            <div className="relative w-full max-w-xs sm:max-w-md md:max-w-lg ml-4">
+            <div className="relative w-full max-w-[180px] sm:max-w-xs md:max-w-md lg:max-w-lg ml-0 sm:ml-4">
               <input
                 type="text"
                 placeholder="Search"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                /* Added transition-all, duration-300, focus:scale-105, and focus:shadow-xl below */
-                className="w-full bg-white/70 backdrop-blur-md py-2.5 px-10 rounded-full text-sm placeholder-gray-500 focus:outline-none shadow-inner text-black transition-all duration-300 focus:scale-105 focus:shadow-xl focus:bg-white"
-                onChange={(e) => handleSearch(e.target.value)}
-                className="w-full bg-white/70 backdrop-blur-md py-2.5 px-10 rounded-full text-sm placeholder-gray-500 focus:outline-none shadow-inner text-black"
+                className="w-full h-10 sm:h-8 bg-white/70 backdrop-blur-md pl-10 pr-10 rounded-full text-sm placeholder-gray-500 focus:outline-none shadow-inner text-black transition-all duration-300 focus:scale-105 focus:shadow-xl focus:bg-white"
               />
-              <svg
-                className="absolute left-3 top-3 w-4 h-4 text-gray-600"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2.5"
-                  d="M21 21l-6-6m2-5a7 7-0 11-14 0 7 7-0 0114 0z"
-                />
-              </svg>
-              <svg
-                className="absolute right-3 top-3 w-4 h-4 text-gray-600"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M19 11a7 7 0 01-7 7m0 0a7 7-0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"
-                />
-              </svg>
+              <span className="absolute left-3 top-1/2 -translate-y-1/2 flex items-center pointer-events-none hidden sm:flex">
+                <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M21 21l-6-6m2-5a7 7-0 11-14 0 7 7-0 0114 0z" />
+                </svg>
+              </span>
+              <span className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center pointer-events-none">
+                <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 11a7 7 0 01-7 7m0 0a7 7-0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+                </svg>
+              </span>
             </div>
           </div>
         </div>
