@@ -106,6 +106,17 @@ const StaffSignup = () => {
       </div>
     )}
 
+    <div className="md:w-full mb-4">
+      <label className="block text-sm text-gray-700 mb-1">Full Name:</label>
+      <input
+        type="text"
+        name="fullName"
+        placeholder="Jane Smith"
+        value={formData.fullName}
+        onChange={handleChange}
+        className="w-full px-5 py-3 rounded-lg border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-sky-400"
+      />
+    </div>
 <div className="w-full mb-4 flex gap-4">
           <div className="flex-1">
             <label className="block text-sm text-gray-700 mb-1">First Name:</label>
@@ -133,7 +144,7 @@ const StaffSignup = () => {
           </div>
         </div>
 
-    <div className="w-full mb-4">
+    <div className="md:w-full mb-4">
       <label className="block text-sm text-gray-700 mb-1">ID Number:</label>
       <input
         type="text"
@@ -146,7 +157,7 @@ const StaffSignup = () => {
       />
     </div>
 
-    <div className="w-full mb-4">
+    <div className="md:w-full mb-4">
       <label className="block text-sm text-gray-700 mb-1">Email:</label>
       <input
         type="email"
@@ -195,7 +206,7 @@ const StaffSignup = () => {
 </div>
 
 
-    <div className="w-full mb-4">
+    <div className="md:w-full mb-4">
       <label className="block text-sm text-gray-700 mb-1">Password:</label>
       <input
         type="password"
@@ -208,7 +219,7 @@ const StaffSignup = () => {
       />
     </div>
 
-    <div className="w-full mb-6">
+    <div className="md:w-full mb-6">
       <label className="block text-sm text-gray-700 mb-1">Confirm Password:</label>
       <input
         type="password"
@@ -223,7 +234,7 @@ const StaffSignup = () => {
 
     <button
       type="submit"
-      className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 rounded-full transition duration-300 mb-4"
+      className="w-55 md:w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 rounded-full transition duration-300 mb-4"
     >
       Sign Up
     </button>
