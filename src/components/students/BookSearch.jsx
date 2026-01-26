@@ -9,64 +9,47 @@ import { getAllBooks, searchBooks } from "../../services/api";
 export default function BookSearchPage() {
   const [books, setBooks] = useState([]);
   const [query, setQuery] = useState("");
- 
-  // Group books by their first letter
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");  
-  
+  const [error, setError] = useState("");
 
-  const fetchAllBooks = async () => {
-    try {
-      setLoading(true);
-      setError(""); 
-      const response = await getAllBooks();
-      // Wrap single object in array if needed
-      setBooks(Array.isArray(response.data) ? response.data : [response.data]);
-    } catch (err) {
-      setError("Failed to load books");
-    } finally {
-      setLoading(false);
-    }
-  };
+  // Fetch all books on mount
+  useEffect(() => {
+    const fetchAllBooks = async () => {
+      try {
+        setLoading(true);
+        setError("");
+        const response = await getAllBooks();
+        setBooks(Array.isArray(response.data) ? response.data : [response.data]);
+      } catch (err) {
+        setError("Failed to load books");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchAllBooks();
+  }, []);
 
-  
-  const handleSearch = async (value) => {
-    setQuery(value);
+  // Filter books locally based on search query
+  const filteredBooks = useMemo(() => {
+    if (!query.trim()) return books;
+    return books.filter(
+      (book) =>
+        (book.title && book.title.toLowerCase().includes(query.toLowerCase())) ||
+        (book.author && book.author.toLowerCase().includes(query.toLowerCase()))
+    );
+  }, [books, query]);
 
-    if (value.trim() === "") {
-      fetchAllBooks();
-      return;
-    }
-  
-    try {
-      setError("");
-      setLoading(true);
-      const response = await searchBooks(value);
-      setBooks(Array.isArray(response.data) ? response.data : [response.data]);
-    } catch (err) {
-      setError("Search failed");
-    } finally {
-      setLoading(false);
-    }
-  };
-  
-  
+  // Group books by their first letter or category
   const groupedBooks = useMemo(() => {
     const groups = {};
-    if (!books || books.length === 0) return groups;
-  
-    books.forEach((book) => {
+    if (!filteredBooks || filteredBooks.length === 0) return groups;
+    filteredBooks.forEach((book) => {
       const category = book.category?.trim() || "Uncategorized";
       if (!groups[category]) groups[category] = [];
       groups[category].push(book);
     });
-  
     return groups;
-  }, [books]);
-  
-  
-  
-  
+  }, [filteredBooks]);
 
   return (
     <div className="min-h-screen bg-[#00E5FF] font-sans">
